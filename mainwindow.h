@@ -22,10 +22,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void requestHotelInfo;
-    void readHotelInfo;
+    //void requestHotelInfo;
+    //void readHotelInfo;
     //!Maybe have the connected slot in the server go to a different slot if needed
-    void requestClientInfo;
+    //void requestClientInfo;
 
 private:
     Ui::MainWindow *ui;
