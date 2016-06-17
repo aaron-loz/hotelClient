@@ -22,10 +22,15 @@ public:
     ~MainWindow();
 
 private slots:
-    //void requestHotelInfo;
-    //void readHotelInfo;
+    void sessionOpened();
+    //void requestHotelInfo();
+    void readHotelInfo();
     //!Maybe have the connected slot in the server go to a different slot if needed
-    //void requestClientInfo;
+    //void requestClientInfo();
+
+    void on_lineEdit_textChanged(const QString &arg1);
+
+    void on_action_Exit_triggered();
 
 private:
     Ui::MainWindow *ui;
