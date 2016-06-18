@@ -27,10 +27,11 @@ private slots:
     void readHotelInfo();
     //!Maybe have the connected slot in the server go to a different slot if needed
     //void requestClientInfo();
+    void displayError(QAbstractSocket::SocketError socketError);
 
     void on_lineEdit_textChanged(const QString &arg1);
-
     void on_action_Exit_triggered();
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
