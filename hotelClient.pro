@@ -13,8 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    roominfodialog.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    roominfodialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    roominfodialog.ui

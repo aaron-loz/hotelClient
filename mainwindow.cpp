@@ -69,12 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 
-void MainWindow::on_lineEdit_textChanged(const QString &arg1)
-{
-    arg1;
-    ui->pushButton->setEnabled(true);
-}
-
+//!Action Slots
 void MainWindow::on_action_Exit_triggered()
 {
     QMessageBox::StandardButton reply;
@@ -84,6 +79,7 @@ void MainWindow::on_action_Exit_triggered()
         QCoreApplication::exit();}
 }
 
+//!Network Slots
 void MainWindow::sessionOpened(){
     qDebug()<<"sessionOpened called";
     QNetworkConfiguration config = networkSession->configuration();
@@ -118,17 +114,8 @@ void MainWindow::readHotelInfo(){
     QString hotelInfo;
     in >> hotelInfo;
     //if nextfortune is the same as currentFortune,sets timer to 0, which signals for requestNewFortune slot
+    QMessageBox::about(this, tr("hotel Info!"),hotelInfo);
     ui->statusLabel->setText(hotelInfo);
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    qDebug()<<"pushButton acts as sendFortune slot";
-    blocksize = 0;
-    tcpSocket->abort();
-    int port = ui->lineEdit->text().toInt();
-    tcpSocket->connectToHost(ui->comboBox->currentText(),port);
-
 }
 
 void MainWindow::displayError(QAbstractSocket::SocketError socketError){

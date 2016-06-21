@@ -33,6 +33,10 @@ private slots:
     void on_action_Exit_triggered();
     void on_pushButton_clicked();
 
+    void on_lineEdit_returnPressed();
+
+    void on_findRoom_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTcpSocket *tcpSocket;
