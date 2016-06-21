@@ -140,6 +140,34 @@ void MainWindow::displayError(QAbstractSocket::SocketError socketError){
                                  .arg(tcpSocket->errorString()));
     }
 }
+
+//!UI Slots
+void MainWindow::on_pushButton_clicked()
+{
+    qDebug()<<"pushButton acts as sendFortune slot";
+    blocksize = 0;
+    tcpSocket->abort();
+    int port = ui->lineEdit->text().toInt();
+    tcpSocket->connectToHost(ui->comboBox->currentText(),port);
+
+}
+
+void MainWindow::on_lineEdit_textChanged(const QString &arg1)
+{
+    arg1;
+    ui->pushButton->setEnabled(true);
+}
+
+void MainWindow::on_lineEdit_returnPressed()
+{
+    on_pushButton_clicked();
+}
+
+void MainWindow::on_findRoom_clicked()
+{
+
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
