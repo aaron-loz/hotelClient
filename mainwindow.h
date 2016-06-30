@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QTcpSocket>
-
+#include "roominfodialog.h"
 QT_BEGIN_NAMESPACE
 class QTcpSocket;
 class QNetworkSession;
@@ -43,6 +43,7 @@ private:
     QString clientData;
     quint16 blocksize;
     QNetworkSession *networkSession;
+    roomInfoDialog *roomDialog;
 };
 
 #endif // MAINWINDOW_H

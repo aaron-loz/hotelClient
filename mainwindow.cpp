@@ -93,7 +93,6 @@ void MainWindow::sessionOpened(){
     settings.beginGroup(QLatin1String("QtNetwork"));
     settings.setValue(QLatin1String("DefaultNetworkConfiguration"), id);
     settings.endGroup();
-    ui->statusLabel->setText("Hotel Server connected");
 }
 
 void MainWindow::readHotelInfo(){
@@ -112,10 +111,14 @@ void MainWindow::readHotelInfo(){
         return;//if socketbytes les than blocksize, stops slot cuz error.
     //inStream writes into nextFortune, which displays in qlabel
     QString hotelInfo;
+    qint32 a[49];
     in >> hotelInfo;
+    for(int i=0;i<49;i++){
+    in>>a[i];
+    }
     //if nextfortune is the same as currentFortune,sets timer to 0, which signals for requestNewFortune slot
+    ui->statusLabel->setText("Hotel Server connected");
     QMessageBox::about(this, tr("hotel Info!"),hotelInfo);
-    ui->statusLabel->setText(hotelInfo);
 }
 
 void MainWindow::displayError(QAbstractSocket::SocketError socketError){
@@ -154,7 +157,6 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_lineEdit_textChanged(const QString &arg1)
 {
-    arg1;
     ui->pushButton->setEnabled(true);
 }
 
@@ -165,7 +167,10 @@ void MainWindow::on_lineEdit_returnPressed()
 
 void MainWindow::on_findRoom_clicked()
 {
+    roomDialog = new roomInfoDialog;
+    if(roomDialog->exec()){
 
+    }
 }
 
 MainWindow::~MainWindow()
