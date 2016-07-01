@@ -111,7 +111,7 @@ void MainWindow::readHotelInfo(){
         return;//if socketbytes les than blocksize, stops slot cuz error.
     //inStream writes into nextFortune, which displays in qlabel
     QString hotelInfo;
-    qint32 a[49];
+
     in >> hotelInfo;
     for(int i=0;i<49;i++){
     in>>a[i];
@@ -168,6 +168,9 @@ void MainWindow::on_lineEdit_returnPressed()
 void MainWindow::on_findRoom_clicked()
 {
     roomDialog = new roomInfoDialog;
+    //!Change to be the real qint32 for the hotel info
+    qint32 a = 20;
+    roomDialog->setRoomData(a,1);
     if(roomDialog->exec()){
 
     }

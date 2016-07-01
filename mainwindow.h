@@ -38,6 +38,7 @@ private slots:
     void on_findRoom_clicked();
 
 private:
+    qint32 a[49];
     Ui::MainWindow *ui;
     QTcpSocket *tcpSocket;
     QString clientData;

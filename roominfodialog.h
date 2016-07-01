@@ -2,6 +2,7 @@
 #define ROOMINFODIALOG_H
 
 #include <QDialog>
+#include <QStandardItemModel>
 
 namespace Ui {
 class roomInfoDialog;
@@ -17,6 +18,9 @@ public:
 
 private:
     Ui::roomInfoDialog *ui;
+    QStandardItemModel *roomModel;
+public slots:
+    void setRoomData(qint32 &data, int i);
 };
 
 #endif // ROOMINFODIALOG_H
