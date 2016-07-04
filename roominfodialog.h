@@ -20,7 +20,10 @@ private:
     Ui::roomInfoDialog *ui;
     QStandardItemModel *roomModel;
 public slots:
-    void setRoomData(qint32 &data, int i);
+    void setRoomData(qint32 &data, QString &bedType, bool &occupied);
+    void clearData();
+private slots:
+    void on_lineEdit_editingFinished();
 };
 
 #endif // ROOMINFODIALOG_H

@@ -39,6 +39,9 @@ private slots:
 
 private:
     qint32 a[49];
+    QString bedType[49];
+    bool occupied[49];
+
     Ui::MainWindow *ui;
     QTcpSocket *tcpSocket;
     QString clientData;

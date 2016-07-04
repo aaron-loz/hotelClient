@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tcpSocket(new QTcpSocket(this)),
     blocksize(0),
     networkSession(Q_NULLPTR),
+    roomDialog(new roomInfoDialog),
     ui(new Ui::MainWindow)
 {
     setWindowTitle(tr("Hotel Client"));
@@ -115,6 +116,8 @@ void MainWindow::readHotelInfo(){
     in >> hotelInfo;
     for(int i=0;i<49;i++){
     in>>a[i];
+    in>>bedType[i];
+    in>>occupied[i];
     }
     //if nextfortune is the same as currentFortune,sets timer to 0, which signals for requestNewFortune slot
     ui->statusLabel->setText("Hotel Server connected");
@@ -150,9 +153,9 @@ void MainWindow::on_pushButton_clicked()
     qDebug()<<"pushButton acts as sendFortune slot";
     blocksize = 0;
     tcpSocket->abort();
+    roomDialog->clearData();
     int port = ui->lineEdit->text().toInt();
     tcpSocket->connectToHost(ui->comboBox->currentText(),port);
-
 }
 
 void MainWindow::on_lineEdit_textChanged(const QString &arg1)
@@ -167,10 +170,11 @@ void MainWindow::on_lineEdit_returnPressed()
 
 void MainWindow::on_findRoom_clicked()
 {
-    roomDialog = new roomInfoDialog;
     //!Change to be the real qint32 for the hotel info
-    qint32 a = 20;
-    roomDialog->setRoomData(a,1);
+    for(int i=0;i<49;i++){
+        qDebug()<<bedType[i];
+    roomDialog->setRoomData(a[i], bedType[i], occupied[i]);
+    }
     if(roomDialog->exec()){
 
     }
