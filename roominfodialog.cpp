@@ -1,12 +1,12 @@
 #include "roominfodialog.h"
 #include "ui_roominfodialog.h"
+#include <QDebug>
 
 roomInfoDialog::roomInfoDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::roomInfoDialog)
 {
     ui->setupUi(this);
-    ui->lineEdit->setValidator(new QIntValidator(1, 65535, this));//LineEdit can only put numbers
     roomModel = new QStandardItemModel();
 }
 
@@ -32,7 +32,3 @@ roomInfoDialog::~roomInfoDialog()
     delete ui;
 }
 
-void roomInfoDialog::on_lineEdit_editingFinished()
-{
-    QString roomNumber = ui->lineEdit->text();
-}

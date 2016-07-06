@@ -39,15 +39,12 @@
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
+    <item alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label">
       <property name="text">
        <string>Search Room Number:</string>
       </property>
      </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="lineEdit"/>
     </item>
    </layout>
   </widget>

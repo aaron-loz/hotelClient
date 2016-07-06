@@ -23,7 +23,6 @@ public slots:
     void setRoomData(qint32 &data, QString &bedType, bool &occupied);
     void clearData();
 private slots:
-    void on_lineEdit_editingFinished();
 };
 
 #endif // ROOMINFODIALOG_H

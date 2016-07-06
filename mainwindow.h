@@ -42,8 +42,10 @@ private:
     QString bedType[49];
     bool occupied[49];
 
+
     Ui::MainWindow *ui;
     QTcpSocket *tcpSocket;
+    bool socketConnected=false;
     QString clientData;
     quint16 blocksize;
     QNetworkSession *networkSession;
