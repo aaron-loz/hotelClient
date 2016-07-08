@@ -1,6 +1,5 @@
 #include "roominfodialog.h"
 #include "ui_roominfodialog.h"
-#include <QDebug>
 
 roomInfoDialog::roomInfoDialog(QWidget *parent) :
     QDialog(parent),
@@ -10,7 +9,7 @@ roomInfoDialog::roomInfoDialog(QWidget *parent) :
     roomModel = new QStandardItemModel();
 }
 
-void roomInfoDialog::setRoomData(qint32 &data, QString &bedType, bool &occupied){
+void roomInfoDialog::setRoomData(qint32 &roomNum, QString &bedType, bool &occupied){
     QString isOccupied;
     if(occupied){
         isOccupied = "Occupied";
@@ -18,7 +17,7 @@ void roomInfoDialog::setRoomData(qint32 &data, QString &bedType, bool &occupied)
     else{
         isOccupied = "Vacant";
     }
-    QStandardItem *item = new QStandardItem(QString("%0 | %1 | %2").arg(data).arg(bedType).arg(isOccupied));
+    QStandardItem *item = new QStandardItem(QString("%0 | %1 | %2").arg(roomNum).arg(bedType).arg(isOccupied));
     roomModel->appendRow(item);
     ui->listView->setModel(roomModel);
 }

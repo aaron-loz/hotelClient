@@ -41,8 +41,13 @@
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <underline>true</underline>
+       </font>
+      </property>
       <property name="text">
-       <string>Search Room Number:</string>
+       <string>Search Room Number</string>
       </property>
      </widget>
     </item>
@@ -54,7 +59,7 @@
      <x>10</x>
      <y>50</y>
      <width>221</width>
-     <height>192</height>
+     <height>211</height>
     </rect>
    </property>
   </widget>

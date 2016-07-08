@@ -29,30 +29,7 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QScrollArea" name="scrollArea">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>70</y>
-     <width>211</width>
-     <height>201</height>
-    </rect>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>207</width>
-      <height>197</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -62,17 +39,29 @@
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
+    <item alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <underline>true</underline>
+       </font>
+      </property>
       <property name="text">
        <string>Search Guest Name</string>
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QLineEdit" name="lineEdit"/>
-    </item>
    </layout>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>221</width>
+     <height>211</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>

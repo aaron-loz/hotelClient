@@ -2,6 +2,7 @@
 #define GUESTINFODIALOG_H
 
 #include <QDialog>
+#include <QStandardItemModel>
 
 namespace Ui {
 class guestInfoDialog;
@@ -17,6 +18,11 @@ public:
 
 private:
     Ui::guestInfoDialog *ui;
+    QStandardItemModel *guestModel;
+public slots:
+    void clearData();
+    void setGuestData(qint32 &roomNum, QString &guestName, int &numNights);
+
 };
 
 #endif // GUESTINFODIALOG_H

@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QTcpSocket>
 #include "roominfodialog.h"
+#include "guestinfodialog.h"
+
 QT_BEGIN_NAMESPACE
 class QTcpSocket;
 class QNetworkSession;
@@ -37,6 +39,8 @@ private slots:
 
     void on_findRoom_clicked();
 
+    void on_findGuest_clicked();
+
 private:
     qint32 a[49];
     QString bedType[49];
@@ -49,7 +53,9 @@ private:
     QString clientData;
     quint16 blocksize;
     QNetworkSession *networkSession;
+
     roomInfoDialog *roomDialog;
+    guestInfoDialog *guestDialog;
 };
 
 #endif // MAINWINDOW_H

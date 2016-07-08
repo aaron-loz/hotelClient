@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     blocksize(0),
     networkSession(Q_NULLPTR),
     roomDialog(new roomInfoDialog),
+    guestDialog(new guestInfoDialog),
     ui(new Ui::MainWindow)
 {
     setWindowTitle(tr("Hotel Client"));
@@ -185,4 +186,11 @@ void MainWindow::on_findRoom_clicked()
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_findGuest_clicked()
+{
+    if(guestDialog->exec()){
+
+    }
 }
