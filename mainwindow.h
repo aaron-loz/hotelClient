@@ -44,6 +44,7 @@ private slots:
 private:
     qint32 a[49];
     QString bedType[49];
+    QString fullName[3];
     bool occupied[49];
 
 

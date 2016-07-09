@@ -120,6 +120,10 @@ void MainWindow::readHotelInfo(){
     in>>bedType[i];
     in>>occupied[i];
     }
+    for(int i=0;i<3;i++){
+      in>>fullName[i];
+      qDebug()<<fullName[i];
+    }
     //if nextfortune is the same as currentFortune,sets timer to 0, which signals for requestNewFortune slot
     ui->statusLabel->setText("Hotel Server connected");
     socketConnected = true;
