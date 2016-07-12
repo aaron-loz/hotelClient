@@ -20,9 +20,9 @@ void guestInfoDialog::clearData(){
     guestModel->clear();
 }
 
-void guestInfoDialog::setGuestData(qint32 &roomNum, QString &guestName, int &numNights){
+void guestInfoDialog::setGuestData(qint32 &roomNum, QString &guestName, int &numNights, int &checkInDate){
 
-    QStandardItem *item = new QStandardItem(QString("%0 | %1 | %2").arg(roomNum).arg(guestName).arg(numNights));
+    QStandardItem *item = new QStandardItem(QString("%0 | %1 | %2 nights | CheckIn: %3").arg(guestName).arg(roomNum).arg(numNights).arg(checkInDate));
     guestModel->appendRow(item);
     ui->listView->setModel(guestModel);
 }

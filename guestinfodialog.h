@@ -21,7 +21,7 @@ private:
     QStandardItemModel *guestModel;
 public slots:
     void clearData();
-    void setGuestData(qint32 &roomNum, QString &guestName, int &numNights);
+    void setGuestData(qint32 &roomNum, QString &guestName, int &numNights,int &checkInDate);
 
 };
 

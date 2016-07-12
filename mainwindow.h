@@ -42,9 +42,12 @@ private slots:
     void on_findGuest_clicked();
 
 private:
-    qint32 a[49];
+    qint32 roomNum[49];
     QString bedType[49];
     QString fullName[3];
+    qint32 checkInDate[3];
+    qint32 numNights[3];
+    qint32 roomNumAssigned[3];
     bool occupied[49];
 
 

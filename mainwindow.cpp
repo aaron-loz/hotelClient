@@ -116,21 +116,28 @@ void MainWindow::readHotelInfo(){
 
     in >> hotelInfo;
     for(int i=0;i<49;i++){
-    in>>a[i];
+    in>>roomNum[i];
     in>>bedType[i];
     in>>occupied[i];
     }
+
     for(int i=0;i<3;i++){
       in>>fullName[i];
-      qDebug()<<fullName[i];
+      in>>checkInDate[i];
+      in>>numNights[i];
+      in>>roomNumAssigned[i];
     }
+
     //if nextfortune is the same as currentFortune,sets timer to 0, which signals for requestNewFortune slot
     ui->statusLabel->setText("Hotel Server connected");
     socketConnected = true;
     QMessageBox::about(this, tr("hotel Info!"),hotelInfo);
 
     for(int i=0;i<49;i++){
-    roomDialog->setRoomData(a[i], bedType[i], occupied[i]);
+    roomDialog->setRoomData(roomNum[i], bedType[i], occupied[i]);
+    }
+    for(int i=0;i<3;i++){
+        guestDialog->setGuestData(roomNumAssigned[i],fullName[i],numNights[i], checkInDate[i]);
     }
 }
 
