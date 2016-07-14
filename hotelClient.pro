@@ -15,12 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     roominfodialog.cpp \
-    guestinfodialog.cpp
+    guestinfodialog.cpp \
+    newguestdialog.cpp
 
 HEADERS  += mainwindow.h \
     roominfodialog.h \
-    guestinfodialog.h
+    guestinfodialog.h \
+    newguestdialog.h
 
 FORMS    += mainwindow.ui \
     roominfodialog.ui \
-    guestinfodialog.ui
+    guestinfodialog.ui \
+    newguestdialog.ui

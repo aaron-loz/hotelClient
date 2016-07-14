@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include "roominfodialog.h"
 #include "guestinfodialog.h"
+#include "newguestdialog.h"
 
 QT_BEGIN_NAMESPACE
 class QTcpSocket;
@@ -41,6 +42,8 @@ private slots:
 
     void on_findGuest_clicked();
 
+    void on_actionNew_Guest_triggered();
+
 private:
     qint32 roomNum[49];
     QString bedType[49];
@@ -60,6 +63,7 @@ private:
 
     roomInfoDialog *roomDialog;
     guestInfoDialog *guestDialog;
+    newGuestDialog *newguestDialog;
 };
 
 #endif // MAINWINDOW_H
