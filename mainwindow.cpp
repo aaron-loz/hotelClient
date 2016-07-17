@@ -173,11 +173,12 @@ void MainWindow::on_pushButton_clicked()
     tcpSocket->abort();
     socketConnected =false;
     roomDialog->clearData();
+    guestDialog->clearData();
     int port = ui->lineEdit->text().toInt();
     tcpSocket->connectToHost(ui->comboBox->currentText(),port);
 }
 
-void MainWindow::on_lineEdit_textChanged(const QString &arg1)
+void MainWindow::on_lineEdit_textChanged()
 {
     ui->pushButton->setEnabled(true);
 }
@@ -189,9 +190,7 @@ void MainWindow::on_lineEdit_returnPressed()
 
 void MainWindow::on_findRoom_clicked()
 {
-    //!Change to be the real qint32 for the hotel info
     if(roomDialog->exec()){
-
     }
 }
 
@@ -203,13 +202,22 @@ MainWindow::~MainWindow()
 void MainWindow::on_findGuest_clicked()
 {
     if(guestDialog->exec()){
-
     }
 }
 
 void MainWindow::on_actionNew_Guest_triggered()
 {
     if(newguestDialog->exec()){
-
+        //!Move these to new function
+        QString currentDay=QString::number(today.day());
+        QString currentMonth=QString::number(today.month());
+        QString currentYear=QString::number(today.year());
+        QString currentDate=currentMonth;
+        currentDate.append(currentDay);
+        currentDate.append(currentYear);
+        int currentDateInt=currentDate.toInt();
+        
+        guestDialog->setGuestData(newguestDialog->roomNumSet,newguestDialog->newGuestName,
+                                  newguestDialog->newNumNights,currentDateInt);
     }
 }

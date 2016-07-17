@@ -6,6 +6,7 @@
 #include "roominfodialog.h"
 #include "guestinfodialog.h"
 #include "newguestdialog.h"
+#include <QDateTime>
 
 QT_BEGIN_NAMESPACE
 class QTcpSocket;
@@ -32,7 +33,7 @@ private slots:
     //void requestClientInfo();
     void displayError(QAbstractSocket::SocketError socketError);
 
-    void on_lineEdit_textChanged(const QString &arg1);
+    void on_lineEdit_textChanged();
     void on_action_Exit_triggered();
     void on_pushButton_clicked();
 
@@ -52,6 +53,7 @@ private:
     qint32 numNights[3];
     qint32 roomNumAssigned[3];
     bool occupied[49];
+    QDate today= QDate::currentDate();
 
 
     Ui::MainWindow *ui;
