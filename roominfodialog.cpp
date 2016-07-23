@@ -13,7 +13,7 @@ void roomInfoDialog::setRoomData(qint32 &roomNum, QString &bedType, bool &occupi
     QString isOccupied;
     if(occupied){
         isOccupied = "Occupied";
-    }
+    }//parses through roomData for readability
     else{
         isOccupied = "Vacant";
     }
@@ -21,7 +21,7 @@ void roomInfoDialog::setRoomData(qint32 &roomNum, QString &bedType, bool &occupi
     roomModel->appendRow(item);
     ui->listView->setModel(roomModel);
 }
-
+//needs to be public function to be declared outside of cpp file.
 void roomInfoDialog::clearData(){
     roomModel->clear();
 }
