@@ -17,12 +17,14 @@ guestInfoDialog::~guestInfoDialog()
 }
 
 void guestInfoDialog::clearData(){
+    //Need specific function so it can be publicly declared outside of cpp sheet
     guestModel->clear();
 }
 
 void guestInfoDialog::setGuestData(qint32 &roomNum, QString &guestName, int &numNights, int &checkInDate){
 
-    QStandardItem *item = new QStandardItem(QString("%0 | %1 | %2 nights | CheckIn: %3").arg(guestName).arg(roomNum).arg(numNights).arg(checkInDate));
+    QStandardItem *item = new QStandardItem(QString("%0 | %1 | %2 nights | CheckIn: %3")
+                                            .arg(guestName).arg(roomNum).arg(numNights).arg(checkInDate));
     guestModel->appendRow(item);
     ui->listView->setModel(guestModel);
 }
