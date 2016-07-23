@@ -15,13 +15,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     setWindowTitle(tr("Hotel Client"));
 
-    //when socket is ready to be read, automatically reads the hotelInfo. Change this as different data gets set in.
+    //when socket is ready to be read, initializzes network.
     connect(tcpSocket, &QIODevice::readyRead, this, &MainWindow::readHotelInfo);
-    //when socket has error, displays error
     typedef void (QAbstractSocket::*QAbstractSocketErrorSignal)(QAbstractSocket::SocketError);
     connect(tcpSocket, static_cast<QAbstractSocketErrorSignal>(&QAbstractSocket::error),
             this, &MainWindow::displayError);
-
+//incase configuration changes, the manager keeps those changes
     QNetworkConfigurationManager manager;
     if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
         QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
@@ -34,21 +33,16 @@ MainWindow::MainWindow(QWidget *parent) :
             QNetworkConfiguration::Discovered) {
             config = manager.defaultConfiguration();
         }
-
+        //if the manager capabilities are already set, goes straight to opening the socket
         networkSession = new QNetworkSession(config, this);
-        //so, this deals with the network session right?Then, it should call with network session
         connect(networkSession, &QNetworkSession::opened, this,&MainWindow::sessionOpened);
-        qDebug()<<"networksession is connected";
-        ui->statusLabel->setText("Connecting to Server...");
         networkSession->open();
     }
-
-
     ui->setupUi(this);
-
-    ui->lineEdit->setValidator(new QIntValidator(1, 65535, this));//LineEdit can only put numbers
+//stops port from being broken though letters
+    ui->lineEdit->setValidator(new QIntValidator(1, 65535, this));
     QString hostName =QHostInfo::localHostName();
-
+//adds host address to combobox in case server and client are on same machine
     if(!hostName.isEmpty()){
         ui->comboBox->addItem(hostName);
         QString domain = QHostInfo::localDomainName();
@@ -59,13 +53,13 @@ MainWindow::MainWindow(QWidget *parent) :
     if(hostName != QLatin1String("localhost")){
         ui->comboBox->addItem(QString("localhost"));}
     QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
+//allows user to choose which server address to connect to, both local and not
     for(int i=0;i<ipAddressesList.size();i++){
         if(!ipAddressesList.at(i).isLoopback()){//if address doesn't have loopback, it is added to server namebox
             ui->comboBox->addItem(ipAddressesList.at(i).toString());}
     }
 
     for(int i=0;i<ipAddressesList.size();i++){
-        //this is different because it allows for addresses with a loopback.
             if (ipAddressesList.at(i).isLoopback()){
                 ui->comboBox->addItem(ipAddressesList.at(i).toString());}
     }
@@ -83,15 +77,13 @@ void MainWindow::on_action_Exit_triggered()
 }
 
 //!Network Slots
-void MainWindow::sessionOpened(){
-    qDebug()<<"sessionOpened called";
+void MainWindow::sessionOpened(){\
     QNetworkConfiguration config = networkSession->configuration();
     QString id;
     if (config.type() == QNetworkConfiguration::UserChoice)
         id = networkSession->sessionProperty(QLatin1String("UserChoiceConfiguration")).toString();
     else
         id = config.identifier();
-
     QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
     settings.beginGroup(QLatin1String("QtNetwork"));
     settings.setValue(QLatin1String("DefaultNetworkConfiguration"), id);
@@ -102,38 +94,34 @@ void MainWindow::readHotelInfo(){
     //!change this slot to the actual button press.
     QDataStream in(tcpSocket);
     in.setVersion(QDataStream::Qt_4_0);
-    qDebug()<<"readHotelInfo called";
-
     //if blocksize does not have datasize, checks socket bytes and writes data to blocksize
-    if (blocksize == 0) {//if isnt 16bit stream, stop
+    if (blocksize == 0) {
+        //stops anything that is not 16bit
         if (tcpSocket->bytesAvailable() < (int)sizeof(quint16)){
             return;}
         in >> blocksize;
     }
     if (tcpSocket->bytesAvailable() < blocksize)
         return;//if socketbytes les than blocksize, stops slot cuz error.
-    //inStream writes into nextFortune, which displays in qlabel
+    //actual data being reccieve into datastream
     QString hotelInfo;
-
     in >> hotelInfo;
     for(int i=0;i<49;i++){
     in>>roomNum[i];
     in>>bedType[i];
     in>>occupied[i];
     }
-
     for(int i=0;i<3;i++){
       in>>fullName[i];
       in>>checkInDate[i];
       in>>numNights[i];
       in>>roomNumAssigned[i];
     }
-
     //if nextfortune is the same as currentFortune,sets timer to 0, which signals for requestNewFortune slot
     ui->statusLabel->setText("Hotel Server connected");
     socketConnected = true;
     QMessageBox::about(this, tr("hotel Info!"),hotelInfo);
-
+    //data gets added to dialog for user to interact with
     for(int i=0;i<49;i++){
     roomDialog->setRoomData(roomNum[i], bedType[i], occupied[i]);
     }
@@ -143,7 +131,7 @@ void MainWindow::readHotelInfo(){
 }
 
 void MainWindow::displayError(QAbstractSocket::SocketError socketError){
-    switch (socketError) {
+    switch (socketError) {//in case of error recieving from server
     case QAbstractSocket::RemoteHostClosedError:
         break;
     case QAbstractSocket::HostNotFoundError:
@@ -168,7 +156,7 @@ void MainWindow::displayError(QAbstractSocket::SocketError socketError){
 //!UI Slots
 void MainWindow::on_pushButton_clicked()
 {
-    qDebug()<<"pushButton acts as sendFortune slot";
+    qDebug()<<"lets more data come from server without confusing data in dialogs";
     blocksize = 0;
     tcpSocket->abort();
     socketConnected =false;
@@ -179,12 +167,12 @@ void MainWindow::on_pushButton_clicked()
 }
 
 void MainWindow::on_lineEdit_textChanged()
-{
+{//stops user from tyring to connect without a port
     ui->pushButton->setEnabled(true);
 }
 
 void MainWindow::on_lineEdit_returnPressed()
-{
+{//user can press return without having to press button
     on_pushButton_clicked();
 }
 
@@ -206,7 +194,8 @@ void MainWindow::on_findGuest_clicked()
 }
 
 void MainWindow::on_actionNew_Guest_triggered()
-{
+{//Since QDate isnt the standard format for the date,
+    //turns QDate into QString then into int.
     if(newguestDialog->exec()){
         //!Move these to new function
         QString currentDay=QString::number(today.day());
@@ -216,7 +205,6 @@ void MainWindow::on_actionNew_Guest_triggered()
         currentDate.append(currentDay);
         currentDate.append(currentYear);
         int currentDateInt=currentDate.toInt();
-        
         guestDialog->setGuestData(newguestDialog->roomNumSet,newguestDialog->newGuestName,
                                   newguestDialog->newNumNights,currentDateInt);
     }
