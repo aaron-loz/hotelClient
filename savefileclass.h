@@ -13,8 +13,11 @@ public:
     ~saveFileClass();
 private:
     QFile file;
+    QTextStream dataOut;
 public slots:
     void saveHotelData(QString &saveData);
+    void changetoString(qint32 &num, bool &occupied);
+    void changetoString(qint32 &checkIn, qint32 &numNights, qint32 &roomAssigned);
 };
 
 #endif // SAVEFILECLASS_H

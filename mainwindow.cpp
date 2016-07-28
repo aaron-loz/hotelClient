@@ -11,16 +11,15 @@ MainWindow::MainWindow(QWidget *parent) :
     roomDialog(new roomInfoDialog),
     guestDialog(new guestInfoDialog),
     newguestDialog(new newGuestDialog),
+    saveFile(new saveFileClass),
     ui(new Ui::MainWindow)
 {
-    setWindowTitle(tr("Hotel Client"));
-
     //when socket is ready to be read, initializzes network.
     connect(tcpSocket, &QIODevice::readyRead, this, &MainWindow::readHotelInfo);
     typedef void (QAbstractSocket::*QAbstractSocketErrorSignal)(QAbstractSocket::SocketError);
     connect(tcpSocket, static_cast<QAbstractSocketErrorSignal>(&QAbstractSocket::error),
             this, &MainWindow::displayError);
-//incase configuration changes, the manager keeps those changes
+    //incase configuration changes, the manager keeps those changes
     QNetworkConfigurationManager manager;
     if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
         QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
@@ -39,10 +38,12 @@ MainWindow::MainWindow(QWidget *parent) :
         networkSession->open();
     }
     ui->setupUi(this);
-//stops port from being broken though letters
+
+    //stops port from being broken though letters
     ui->lineEdit->setValidator(new QIntValidator(1, 65535, this));
     QString hostName =QHostInfo::localHostName();
-//adds host address to combobox in case server and client are on same machine
+
+    //adds host address to combobox in case server and client are on same machine
     if(!hostName.isEmpty()){
         ui->comboBox->addItem(hostName);
         QString domain = QHostInfo::localDomainName();
@@ -63,6 +64,8 @@ MainWindow::MainWindow(QWidget *parent) :
             if (ipAddressesList.at(i).isLoopback()){
                 ui->comboBox->addItem(ipAddressesList.at(i).toString());}
     }
+    setWindowTitle(tr("Hotel Client"));
+
 }
 
 
@@ -91,7 +94,6 @@ void MainWindow::sessionOpened(){\
 }
 
 void MainWindow::readHotelInfo(){
-    //!change this slot to the actual button press.
     QDataStream in(tcpSocket);
     in.setVersion(QDataStream::Qt_4_0);
     //if blocksize does not have datasize, checks socket bytes and writes data to blocksize
@@ -106,21 +108,27 @@ void MainWindow::readHotelInfo(){
     //actual data being reccieve into datastream
     QString hotelInfo;
     in >> hotelInfo;
+
     for(int i=0;i<49;i++){
     in>>roomNum[i];
     in>>bedType[i];
     in>>occupied[i];
+    saveFile->saveHotelData(bedType[i]);
+    saveFile->changetoString(roomNum[i],occupied[i]);
     }
     for(int i=0;i<3;i++){
       in>>fullName[i];
       in>>checkInDate[i];
       in>>numNights[i];
       in>>roomNumAssigned[i];
+      saveFile->saveHotelData(fullName[i]);
+      saveFile->changetoString(checkInDate[i],numNights[i], roomNumAssigned[i]);
     }
     //if nextfortune is the same as currentFortune,sets timer to 0, which signals for requestNewFortune slot
     ui->statusLabel->setText("Hotel Server connected");
     socketConnected = true;
     QMessageBox::about(this, tr("hotel Info!"),hotelInfo);
+
     //data gets added to dialog for user to interact with
     for(int i=0;i<49;i++){
     roomDialog->setRoomData(roomNum[i], bedType[i], occupied[i]);
@@ -156,7 +164,7 @@ void MainWindow::displayError(QAbstractSocket::SocketError socketError){
 //!UI Slots
 void MainWindow::on_pushButton_clicked()
 {
-    qDebug()<<"lets more data come from server without confusing data in dialogs";
+    //lets more data come from server without confusing data in dialogs
     blocksize = 0;
     tcpSocket->abort();
     socketConnected =false;
@@ -195,9 +203,8 @@ void MainWindow::on_findGuest_clicked()
 
 void MainWindow::on_actionNew_Guest_triggered()
 {//Since QDate isnt the standard format for the date,
-    //turns QDate into QString then into int.
+    //turns QDate into QString then into int to streamline function param implementation
     if(newguestDialog->exec()){
-        //!Move these to new function
         QString currentDay=QString::number(today.day());
         QString currentMonth=QString::number(today.month());
         QString currentYear=QString::number(today.year());
