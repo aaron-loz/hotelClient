@@ -13,7 +13,6 @@ public:
     ~saveFileClass();
 private:
     QFile file;
-    QTextStream dataOut;
 public slots:
     void saveHotelData(QString &saveData);
     void changetoString(qint32 &num, bool &occupied);

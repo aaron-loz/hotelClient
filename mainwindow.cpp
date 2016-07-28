@@ -71,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //!Action Slots
 void MainWindow::on_action_Exit_triggered()
-{
+{//standard exit action slot
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Exit", "Are you sure you wanna Quit?",
                                   QMessageBox::Yes | QMessageBox::No);
@@ -80,7 +80,8 @@ void MainWindow::on_action_Exit_triggered()
 }
 
 //!Network Slots
-void MainWindow::sessionOpened(){\
+void MainWindow::sessionOpened(){
+    //keeps track of network configuration
     QNetworkConfiguration config = networkSession->configuration();
     QString id;
     if (config.type() == QNetworkConfiguration::UserChoice)
@@ -96,7 +97,7 @@ void MainWindow::sessionOpened(){\
 void MainWindow::readHotelInfo(){
     QDataStream in(tcpSocket);
     in.setVersion(QDataStream::Qt_4_0);
-    //if blocksize does not have datasize, checks socket bytes and writes data to blocksize
+    //if blocksize doesnt have datasize, checks socket bytes and writes data to blocksize
     if (blocksize == 0) {
         //stops anything that is not 16bit
         if (tcpSocket->bytesAvailable() < (int)sizeof(quint16)){
@@ -109,37 +110,40 @@ void MainWindow::readHotelInfo(){
     QString hotelInfo;
     in >> hotelInfo;
 
-    for(int i=0;i<49;i++){
+    for(int i=0;i<=49;i++){
     in>>roomNum[i];
     in>>bedType[i];
     in>>occupied[i];
     saveFile->saveHotelData(bedType[i]);
     saveFile->changetoString(roomNum[i],occupied[i]);
-    }
+    }//data transfered to dialog and saveFile.
     for(int i=0;i<3;i++){
-      in>>fullName[i];
+     in>>fullName[i];
       in>>checkInDate[i];
-      in>>numNights[i];
+     in>>numNights[i];
       in>>roomNumAssigned[i];
       saveFile->saveHotelData(fullName[i]);
+      qDebug()<<checkInDate[i];
       saveFile->changetoString(checkInDate[i],numNights[i], roomNumAssigned[i]);
     }
-    //if nextfortune is the same as currentFortune,sets timer to 0, which signals for requestNewFortune slot
+
     ui->statusLabel->setText("Hotel Server connected");
     socketConnected = true;
     QMessageBox::about(this, tr("hotel Info!"),hotelInfo);
 
     //data gets added to dialog for user to interact with
-    for(int i=0;i<49;i++){
+    for(int i=0;i<=49;i++){
     roomDialog->setRoomData(roomNum[i], bedType[i], occupied[i]);
     }
+    //!Bug:Room Data uses guest Name for last addition
     for(int i=0;i<3;i++){
         guestDialog->setGuestData(roomNumAssigned[i],fullName[i],numNights[i], checkInDate[i]);
     }
 }
 
 void MainWindow::displayError(QAbstractSocket::SocketError socketError){
-    switch (socketError) {//in case of error recieving from server
+    //in case of error recieving from server
+    switch (socketError) {
     case QAbstractSocket::RemoteHostClosedError:
         break;
     case QAbstractSocket::HostNotFoundError:
