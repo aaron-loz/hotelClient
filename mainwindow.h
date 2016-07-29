@@ -6,6 +6,7 @@
 #include "roominfodialog.h"
 #include "guestinfodialog.h"
 #include "newguestdialog.h"
+#include "savefileclass.h"
 #include <QDateTime>
 
 QT_BEGIN_NAMESPACE
@@ -45,6 +46,10 @@ private slots:
 
     void on_actionNew_Guest_triggered();
 
+    void on_actionAbout_2_triggered();
+
+    void on_actionHotel_Information_triggered();
+
 private:
     qint32 roomNum[49];
     QString bedType[49];
@@ -54,9 +59,9 @@ private:
     qint32 roomNumAssigned[3];
     bool occupied[49];
     QDate today= QDate::currentDate();
+    QString hotelInfo;
 
 
-    Ui::MainWindow *ui;
     QTcpSocket *tcpSocket;
     bool socketConnected=false;
     QString clientData;
@@ -66,6 +71,9 @@ private:
     roomInfoDialog *roomDialog;
     guestInfoDialog *guestDialog;
     newGuestDialog *newguestDialog;
+    saveFileClass *saveFile;
+    Ui::MainWindow *ui;
+
 };
 
 #endif // MAINWINDOW_H

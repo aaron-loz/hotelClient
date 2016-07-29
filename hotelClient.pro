@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     roominfodialog.cpp \
     guestinfodialog.cpp \
-    newguestdialog.cpp
+    newguestdialog.cpp \
+    savefileclass.cpp
 
 HEADERS  += mainwindow.h \
     roominfodialog.h \
     guestinfodialog.h \
-    newguestdialog.h
+    newguestdialog.h \
+    savefileclass.h
 
 FORMS    += mainwindow.ui \
     roominfodialog.ui \
