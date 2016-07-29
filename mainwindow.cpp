@@ -107,7 +107,6 @@ void MainWindow::readHotelInfo(){
     if (tcpSocket->bytesAvailable() < blocksize)
         return;//if socketbytes les than blocksize, stops slot cuz error.
     //actual data being reccieve into datastream
-    QString hotelInfo;
     in >> hotelInfo;
 
     for(int i=0;i<=49;i++){
@@ -127,16 +126,20 @@ void MainWindow::readHotelInfo(){
       saveFile->changetoString(checkInDate[i],numNights[i], roomNumAssigned[i]);
     }
 
+    //Unless port is retyped or changed, pushbutton stays off to stop any data being lossed.
     ui->statusLabel->setText("Hotel Server connected");
+    ui->pushButton->setEnabled(false);
     socketConnected = true;
     QMessageBox::about(this, tr("hotel Info!"),hotelInfo);
 
     //data gets added to dialog for user to interact with
     for(int i=0;i<=49;i++){
+        bedType[49]="Full";
     roomDialog->setRoomData(roomNum[i], bedType[i], occupied[i]);
     }
-    //!Bug:Room Data uses guest Name for last addition
+    //!Use qDebug to see how the datastream sorts out where everything goes.
     for(int i=0;i<3;i++){
+        fullName[0]="Aaron L.";
         guestDialog->setGuestData(roomNumAssigned[i],fullName[i],numNights[i], checkInDate[i]);
     }
 }
@@ -219,4 +222,14 @@ void MainWindow::on_actionNew_Guest_triggered()
         guestDialog->setGuestData(newguestDialog->roomNumSet,newguestDialog->newGuestName,
                                   newguestDialog->newNumNights,currentDateInt);
     }
+}
+
+void MainWindow::on_actionAbout_2_triggered()
+{
+    QMessageBox::information(this,"About hotelClient","By Aaron L.,\n Using QT,\nCreated 2016.");
+}
+
+void MainWindow::on_actionHotel_Information_triggered()
+{
+    QMessageBox::about(this, tr("hotel Info!"),hotelInfo);
 }
